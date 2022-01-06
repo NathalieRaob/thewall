@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'success.css' %}">
+    <title>Success</title>
+</head>
+
+<body>
+    <div id="wrapper">
+        
+        <h1>Welcome to Walli {{request.session.user}}!</h1>
+        <a href="/logout">Logout</a>
+
+        <div id="posting">
+            <h2>Create Post</h2>
+            <form action="/post_message" method="POST">
+                {% csrf_token %}
+                <textarea name="message"></textarea>
+                <br><input type="submit" value="Post">
+            </form>
+        </div>
+
+        <div id="feed">
+            {% for post in wall_message %}
+            <div class="one">
+                <p class="poster"><a href="/user_profile/{{post.poster.id}}">{{post.poster.first_name}} {{ post.poster.last_name }}</a></p>
+                <p class="post">{{ post.message }}</p>
+                <button><a href="/like/{{post.id}}">Like</a></button>
+                <p>{{ post.user_likes.count }}</p>
+                <h6>{{ post.created_at }}</h6>
+
+                {% if request.session.id ==  post.poster.id %}
+                <a href="/myprofile/{{post.poster.id}}">See your Profile</a>
+                |
+                <a href="delete_post/{{post.id}}">Delete Post</a>
+                {% endif %}
+
+                <form action="/post_comment/{{post.id}}" method="post">
+                    {% csrf_token %}
+                    <h5>Comment:</h5><input type="text" name='comment'>
+                    <input type="submit" value="Submit comment">
+                </form>
+                {% for comment in post.post_comments.all %}
+                    
+                    <p>Poster:<a href="/user_profile/{{poster.id}}">{{comment.poster.last_name}}</a></p>
+                    <p>{{comment.comment}}</p>
+                    <a href="/delete/{{comment.id}}">Delete</a>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <post></post>
+        </div>
+    </div>
+</body>
+</html>

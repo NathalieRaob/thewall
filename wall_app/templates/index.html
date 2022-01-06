@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <title>Log and Reg</title>
+</head>
+<body>
+    <div id="wrapper">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{%  if message.tags %} class='{{ message.tags }}' {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="form">
+            <h1>Register</h1><br>
+            <form action="/register" method='POST'>
+                {% csrf_token %}
+                <h3>First Name</h3>
+                <input type="text" name="first_name">
+                <h3>Last Name</h3>
+                <input type="text" name="last_name">
+                <h3>Email</h3>
+                <input type="text" name="email">
+                <h3> Password</h3>
+                <input type="text" name="password">
+                <h3> Confirm Password</h3>
+                <input type="text" name="confirm_password"><br>
+                <br><input type="submit" value="register">
+            </form>
+        </div><br>
+        <div class="form">
+            <h1>Log In</h1>
+            <form action="/login" method='POST'>
+                {% csrf_token %}
+                <h3>Email</h3>
+                <input type="email" name="email">
+                <h3>Password</h3>
+                <input  type='text' name='password'><br>
+                <br><input type="submit" value="Log In">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

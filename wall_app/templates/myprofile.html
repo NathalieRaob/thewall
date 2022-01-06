@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+</head>
+<body>
+    <div id="wrapper">
+        <h1>{{user.first_name}} {{ user.last_name }}</h1>
+        <div id="allpost">
+            <h3>All your Posts</h3>
+            {% for post in user.user_messages.all %}
+            <p>{{post.message}}</p>
+            {% endfor %}
+        </div>
+
+        <!-- <div id="allcoms">
+            <h3>All comments</h3>
+            {% for comment in user.user_comments.all %}
+            <p>{{ comment.comment }}</p>
+            {% endfor %}
+        </div> -->
+
+
+
+        <a href="/edit_profile/{{user.id}}">Edit Profile</a>
+        <a href="/success">Return Home</a>
+    </div>
+</body>
+</html>
